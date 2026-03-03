@@ -29,5 +29,4 @@ Siehe [SETUP_ANLEITUNG.md](SETUP_ANLEITUNG.md) für die vollständige Installati
 | GPIO 22 | Verdichter       | Belüftung                       |
 | GPIO 23 | Sensor LEER      | Stoppt Ablauf bei leerem Tank   |
 | GPIO 24 | Sensor VOLL      | Stoppt Zulauf bei vollem Tank   |
-| GPIO 25 | Ultraschall ECHO | Abstandssensor HC-SR04          |
 | GPIO 27 | Ablaufventil     | Ablassen des Klarwassers        |

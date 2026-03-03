@@ -124,7 +124,6 @@ def reset_simulation():
     """Reset simulation - set water level to empty tank and reset phase durations"""
     if hardware_mode == 'mock':
         # Reset mock GPIO water level to maximum distance (empty tank)
-        controller.gpio.simulated_water_level = 100.0  # 100cm = tank mostly empty
 
         # Reset phase durations to defaults so cycle starts from zulauf_1
         default_durations = {
@@ -456,12 +455,12 @@ def data_logger_worker():
             status = controller.get_status()
 
             # Debug log
-            print(f"[DATA LOGGER] Level: {status['current_level']:.2f} cm, Components: {status['components']}, Buttons: FULL={water_full}, EMPTY={water_empty}", flush=True)
+            print(f"[DATA LOGGER] Components: {status['components']}, Buttons: FULL={water_full}, EMPTY={water_empty}", flush=True)
 
             # Log to database if running
             if status['is_running']:
                 db.log_sensor_reading(
-                    level=status['current_level'],
+                    level=0,
                     components=status['components'],
                     phase=status['current_phase']
                 )

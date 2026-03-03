@@ -128,10 +128,6 @@ hardware:
       max_runtime: 14400
       active_low: false
   sensors:
-    level:
-      trigger_pin: 24
-      echo_pin: 25
-      read_interval: 1.0
     high_level_button:
       pin: 23
       name: High Water Level Sensor

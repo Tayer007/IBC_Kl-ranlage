@@ -102,8 +102,6 @@ class TreatmentController:
         self.aeration_stop_event = threading.Event()
         self.aeration_phase_start: Optional[float] = None
 
-        # Sensor data
-        self.current_level = 50.0  # Start with safe middle value (sensor will update this)
         self.last_level_read = 0.0
 
         # Water level button states (swapped due to physical wiring)
@@ -583,22 +581,8 @@ class TreatmentController:
     def _read_sensors(self):
         """Read all sensors"""
         current_time = time.time()
-        read_interval = self.config['hardware']['sensors']['level']['read_interval']
 
-        if current_time - self.last_level_read >= read_interval:
-            trigger = self.config['hardware']['sensors']['level']['trigger_pin']
-            echo = self.config['hardware']['sensors']['level']['echo_pin']
-            level_reading = self.gpio.read_distance(trigger, echo)
-
-            # Ignore invalid readings (sensor errors return -1.0)
-            # Keep previous valid reading if sensor fails
-            if level_reading > 0:
-                self.current_level = level_reading
-            else:
-                # Use a safe default value if we've never gotten a valid reading
-                if self.current_level <= 0:
-                    self.current_level = 50.0  # Middle range, safe value
-
+        if current_time - self.last_level_read >= 1.0:
             self.last_level_read = current_time
 
             # Read water level sensor buttons (swapped due to physical wiring)
@@ -633,7 +617,6 @@ class TreatmentController:
             #         })
 
             self._emit_event('sensor_update', {
-                'level': self.current_level,
                 'water_full': self.water_full_button_pressed,
                 'water_empty': self.water_empty_button_pressed,
                 'timestamp': datetime.now().isoformat()
@@ -642,23 +625,6 @@ class TreatmentController:
     def _check_safety(self) -> bool:
         """Check safety conditions"""
         safety = self.config['safety']
-
-        # Check level limits
-        if self.current_level <= safety['high_level_alarm']:
-            print(f"[CONTROLLER] HIGH LEVEL ALARM: {self.current_level}cm")
-            self.stats['errors'].append({
-                'timestamp': datetime.now().isoformat(),
-                'error': 'High level alarm'
-            })
-            return False
-
-        if self.current_level >= safety['low_level_alarm']:
-            print(f"[CONTROLLER] LOW LEVEL ALARM: {self.current_level}cm")
-            self.stats['errors'].append({
-                'timestamp': datetime.now().isoformat(),
-                'error': 'Low level alarm'
-            })
-            return False
 
         # Check total cycle duration
         if self.cycle_start_time:
@@ -733,7 +699,6 @@ class TreatmentController:
                 'phase_elapsed': round(phase_elapsed, 1),
                 'cycle_elapsed': round(cycle_elapsed, 1),
                 'total_cycle_duration': total_cycle_duration,
-                'current_level': round(self.current_level, 2),
                 'components': self.component_states.copy(),
                 'aeration_mode': self.current_aeration_mode.value,
                 'num_cycles': self.config.get('num_cycles', 3),
