@@ -84,6 +84,14 @@ class MockGPIO(GPIOInterface):
         print(f"[MOCK GPIO] Distance sensor reading: {distance:.2f} cm")
         return distance
 
+    def read_input(self, pin: int) -> bool:
+        """Read mock input pin state - always returns False for simulated buttons"""
+        return False
+
+    def setup_input(self, pin: int, pull_down: bool = True):
+        """Setup mock input pin - no-op for mock GPIO"""
+        print(f"[MOCK GPIO] Pin {pin} configured as input with pull_{'down' if pull_down else 'up'}")
+
     def _update_simulation(self):
         """Update simulated water level based on component states"""
         current_time = time.time()

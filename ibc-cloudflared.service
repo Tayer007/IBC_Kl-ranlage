@@ -1,0 +1,18 @@
+[Unit]
+Description=Cloudflared Tunnel for IBC Wastewater Treatment
+After=network.target ibc-backend.service
+Requires=ibc-backend.service
+
+[Service]
+Type=simple
+User=fourat
+Group=fourat
+WorkingDirectory=/home/fourat/IBC_Siedlungswasser_2
+ExecStart=/usr/local/bin/cloudflared tunnel --url http://localhost:5000
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/fourat/IBC_Siedlungswasser_2/cloudflared.log
+StandardError=append:/home/fourat/IBC_Siedlungswasser_2/cloudflared.log
+
+[Install]
+WantedBy=multi-user.target
