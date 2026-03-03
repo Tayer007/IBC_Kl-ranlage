@@ -1,7 +1,6 @@
 [Unit]
 Description=Cloudflared Tunnel for IBC Wastewater Treatment
 After=network.target ibc-backend.service
-Requires=ibc-backend.service
 
 [Service]
 Type=simple
