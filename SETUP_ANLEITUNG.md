@@ -31,8 +31,8 @@ sudo apt-get install -y nodejs
 
 ```bash
 sudo apt-get install -y git
-git clone https://github.com/Tayer007/IBC ~/IBC_Siedlungswasser_2
-cd ~/IBC_Siedlungswasser_2
+git clone https://github.com/Tayer007/IBC_Kl-ranlage ~/IBC_Kl-ranlage
+cd ~/IBC_Kl-ranlage
 ```
 
 ---
@@ -40,7 +40,7 @@ cd ~/IBC_Siedlungswasser_2
 ## 5. Python-Bibliotheken installieren
 
 ```bash
-cd ~/IBC_Siedlungswasser_2/backend
+cd ~/IBC_Kl-ranlage/backend
 python3 -m venv venv
 source venv/bin/activate
 pip install flask==3.0.0 flask-cors==4.0.0 flask-socketio==5.3.5 python-socketio==5.10.0 \
@@ -54,7 +54,7 @@ deactivate
 ## 6. Frontend erstellen
 
 ```bash
-cd ~/IBC_Siedlungswasser_2/frontend
+cd ~/IBC_Kl-ranlage/frontend
 npm install
 npm run build
 ```
@@ -74,7 +74,7 @@ sudo chmod +x /usr/local/bin/cloudflared
 ## 8. Dienste installieren und starten
 
 ```bash
-cd ~/IBC_Siedlungswasser_2
+cd ~/IBC_Kl-ranlage
 sudo bash manage_services.sh install
 ```
 
@@ -96,11 +96,11 @@ Die angezeigte URL im Browser öffnen – die Anwendung ist jetzt erreichbar.
 
 ```bash
 # Aktuelle URL abrufen
-bash ~/IBC_Siedlungswasser_2/manage_services.sh url
+bash ~/IBC_Kl-ranlage/manage_services.sh url
 
 # Alles neu starten (z.B. nach Problemen)
-sudo bash ~/IBC_Siedlungswasser_2/manage_services.sh restart
+sudo bash ~/IBC_Kl-ranlage/manage_services.sh restart
 
 # Status prüfen
-bash ~/IBC_Siedlungswasser_2/manage_services.sh status
+bash ~/IBC_Kl-ranlage/manage_services.sh status
 ```
