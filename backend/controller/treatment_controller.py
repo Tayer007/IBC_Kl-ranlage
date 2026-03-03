@@ -699,6 +699,7 @@ class TreatmentController:
                 'phase_elapsed': round(phase_elapsed, 1),
                 'cycle_elapsed': round(cycle_elapsed, 1),
                 'total_cycle_duration': total_cycle_duration,
+                'current_level': 0,
                 'components': self.component_states.copy(),
                 'aeration_mode': self.current_aeration_mode.value,
                 'num_cycles': self.config.get('num_cycles', 3),
